@@ -92,6 +92,9 @@ jobs:
             --set global.imageTag="${GITHUB_SHA}" \
             --set-string postgresql.auth.password=ci-placeholder > /tmp/voting-app.yaml
           test -s /tmp/voting-app.yaml
+          grep -q 'runAsUser: 70' /tmp/voting-app.yaml
+          grep -q 'runAsGroup: 70' /tmp/voting-app.yaml
+          grep -q 'fsGroup: 70' /tmp/voting-app.yaml
 
       - name: Scan repository and infrastructure configuration
         uses: aquasecurity/trivy-action@v0.36.0
