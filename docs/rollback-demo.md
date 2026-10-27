@@ -19,7 +19,7 @@ Deploy an image tag that does not exist. `--atomic` automatically rolls back if 
 ```bash
 helm upgrade voting-app ./voting-app \
   --namespace voting-app \
-  --set image.tag=rollback-demo-missing \
+  --set global.imageTag=rollback-demo-missing \
   --reuse-values \
   --atomic --timeout 3m
 ```

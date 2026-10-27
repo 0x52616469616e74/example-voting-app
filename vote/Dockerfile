@@ -33,7 +33,7 @@ CMD ["python", "app.py"]
 # final defines the stage that will bundle the application for production
 FROM base AS final
 
-LABEL org.opencontainers.image.source="https://github.com/Radiant-O/example-voting-app"
+LABEL org.opencontainers.image.source="https://github.com/0x52616469616e74/example-voting-app"
 
 # Copy our code from the current folder to the working directory inside the container
 COPY --chown=10001:10001 . .

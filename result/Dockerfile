@@ -30,7 +30,7 @@ CMD ["nodemon", "--inspect=0.0.0.0", "server.js"]
 
 FROM base AS final
 
-LABEL org.opencontainers.image.source="https://github.com/Radiant-O/example-voting-app"
+LABEL org.opencontainers.image.source="https://github.com/0x52616469616e74/example-voting-app"
 
 COPY --chown=node:node . .
 

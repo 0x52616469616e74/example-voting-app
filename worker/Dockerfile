@@ -26,7 +26,7 @@ RUN dotnet publish -c release -o /app -a $TARGETARCH --self-contained false --no
 
 # app image
 FROM mcr.microsoft.com/dotnet/runtime:10.0
-LABEL org.opencontainers.image.source="https://github.com/Radiant-O/example-voting-app"
+LABEL org.opencontainers.image.source="https://github.com/0x52616469616e74/example-voting-app"
 WORKDIR /app
 COPY --from=build /app .
 USER $APP_UID

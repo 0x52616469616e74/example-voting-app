@@ -42,6 +42,34 @@ docker compose down -v
 
 The `-v` flag removes the local development volumes, including database data.
 
+### Validate locally
+
+Run these checks from the repository root in Ubuntu/WSL. They mirror the main
+application checks in CI:
+
+```bash
+docker compose config --quiet
+
+python3 -m pip install --requirement vote/requirements.txt
+PYTHONPATH=vote python3 -m unittest discover --start-directory vote --pattern 'test_*.py'
+
+(cd result && npm ci && node --check server.js && npm test)
+(cd worker && dotnet restore && dotnet build --configuration Release --no-restore)
+
+terraform -chdir=terraform fmt -check -recursive
+terraform -chdir=terraform init -backend=false
+terraform -chdir=terraform validate
+
+helm lint ./voting-app
+helm template voting-app ./voting-app \
+  --namespace voting-app \
+  --set global.imageTag="$(git rev-parse HEAD)" \
+  --set-string postgresql.auth.password=local-placeholder >/tmp/voting-app.yaml
+```
+
+The GitHub Actions workflow additionally runs Trivy against the repository and
+each production image before publishing it.
+
 ## Container security
 
 - Runtime base images are pinned to specific versions.
@@ -126,4 +154,4 @@ Confirm in AWS that the EKS cluster and related load balancers or volumes are go
 
 ## Capstone 2
 
-Capstone 2 is maintained separately in the [Radiant-O/robot-shop](https://github.com/Radiant-O/robot-shop) fork so that its observability platform and evidence remain independent from this delivery project.
+Capstone 2 is maintained separately in the [0x52616469616e74/robot-shop](https://github.com/0x52616469616e74/robot-shop) fork so that its observability platform and evidence remain independent from this delivery project.
