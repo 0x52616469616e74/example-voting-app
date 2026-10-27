@@ -1,6 +1,6 @@
 # DevOps Capstone 1 — Example Voting App
 
-[![Capstone CI/CD](https://github.com/Radiant-O/example-voting-app/actions/workflows/capstone-ci.yml/badge.svg)](https://github.com/Radiant-O/example-voting-app/actions/workflows/capstone-ci.yml)
+[![Capstone CI/CD](https://github.com/0x52616469616e74/example-voting-app/actions/workflows/capstone-ci.yml/badge.svg)](https://github.com/0x52616469616e74/example-voting-app/actions/workflows/capstone-ci.yml)
 
 This repository turns Docker's Example Voting App into a reproducible DevOps delivery project. It runs locally with Docker Compose, provisions Amazon EKS with Terraform, packages the application with Helm, scans source and images with Trivy, and publishes immutable images to GitHub Container Registry (GHCR).
 
@@ -73,9 +73,9 @@ Copy `terraform/terraform.tfvars.example` to `terraform.tfvars` only when overri
 On pushes and pull requests, GitHub Actions validates application syntax, Docker Compose, Terraform, and Helm, then scans the repository. On pushes to `main`, it also builds and scans all three application images and publishes them as:
 
 ```text
-ghcr.io/radiant-o/example-voting-app-vote:<git-sha>
-ghcr.io/radiant-o/example-voting-app-result:<git-sha>
-ghcr.io/radiant-o/example-voting-app-worker:<git-sha>
+ghcr.io/0x52616469616e74/example-voting-app-vote:<git-sha>
+ghcr.io/0x52616469616e74/example-voting-app-result:<git-sha>
+ghcr.io/0x52616469616e74/example-voting-app-worker:<git-sha>
 ```
 
 The deployment job remains safely disabled until these GitHub Actions variables are configured:

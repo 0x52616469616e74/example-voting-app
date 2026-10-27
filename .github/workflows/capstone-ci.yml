@@ -16,7 +16,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAMESPACE: radiant-o
+  IMAGE_NAMESPACE: ${{ github.repository_owner }}
 
 jobs:
   validate:

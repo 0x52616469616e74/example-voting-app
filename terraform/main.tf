@@ -22,7 +22,7 @@ locals {
     Project     = "devops-capstone"
     Environment = var.environment
     ManagedBy   = "Terraform"
-    Owner       = "Radiant-O"
+    Owner       = "0x52616469616e74"
   }
 }
 

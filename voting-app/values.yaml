@@ -10,7 +10,7 @@ global:
 vote:
   replicaCount: 1
   image:
-    repository: ghcr.io/radiant-o/example-voting-app-vote
+    repository: ghcr.io/0x52616469616e74/example-voting-app-vote
   service:
     type: ClusterIP
     port: 80
@@ -25,7 +25,7 @@ vote:
 result:
   replicaCount: 1
   image:
-    repository: ghcr.io/radiant-o/example-voting-app-result
+    repository: ghcr.io/0x52616469616e74/example-voting-app-result
   service:
     type: ClusterIP
     port: 80
@@ -40,7 +40,7 @@ result:
 worker:
   replicaCount: 1
   image:
-    repository: ghcr.io/radiant-o/example-voting-app-worker
+    repository: ghcr.io/0x52616469616e74/example-voting-app-worker
   resources:
     requests:
       cpu: 100m
