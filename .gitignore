@@ -9,6 +9,7 @@ node_modules/
 .nuget-packages/
 .tmp-npm-cache/
 /tmp/
+.playwright-cli/
 .env
 .env.*
 !.env.example

@@ -23,7 +23,7 @@ configured.
 | Requirement | Status | Evidence or remaining action |
 | --- | --- | --- |
 | Forked repository | Done | Public fork linked above; GitHub records `dockersamples/example-voting-app` as its parent. |
-| Local application | Validated; screenshot needed | Compose build and Vote-to-Result flow were tested locally. Capture the two browser pages and `docker compose ps` for the final submission. |
+| Local application | Done | [`docker compose ps` health record](01-compose-healthy.md), [Vote page](02a-vote-page.png), and [Result page](02b-result-page.png) show the live local flow. |
 | Service flow | Done | See [`docs/architecture.md`](../architecture.md). |
 | Container hardening | Done | Non-root runtime users, reduced runtime stages, `.dockerignore`, Kubernetes security contexts, and successful image rebuilds/scans. |
 | Terraform code | Partial | `terraform init` and `terraform validate` pass in CI. A reviewed AWS-backed `terraform plan` is still required. |
@@ -42,8 +42,8 @@ screenshots from the provisioned cluster.
 
 | Evidence | Suggested filename |
 | --- | --- |
-| Successful local Compose build and healthy containers | `01-compose-healthy.png` |
-| Vote and results pages | `02-local-application.png` |
+| Successful local Compose build and healthy containers | `01-compose-healthy.md` |
+| Vote and results pages | `02a-vote-page.png`, `02b-result-page.png` |
 | Terraform plan or successful EKS apply | `03-terraform-eks.png` |
 | Successful CI validation and Trivy scans | `04-ci-security.png` |
 | SHA-tagged packages in GHCR | `05-ghcr-images.png` |
