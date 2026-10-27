@@ -16,14 +16,11 @@ namespace Worker
         {
             try
             {
-                var pgsql = OpenDbConnection("Server=db;Username=postgres;Password=postgres;");
-                var redisConn = OpenRedisConnection("redis");
+                var dbConnectionString = BuildDbConnectionString();
+                var redisHost = Environment.GetEnvironmentVariable("REDIS_HOST") ?? "redis";
+                var pgsql = OpenDbConnection(dbConnectionString);
+                var redisConn = OpenRedisConnection(redisHost);
                 var redis = redisConn.GetDatabase();
-
-                // Keep alive is not implemented in Npgsql yet. This workaround was recommended:
-                // https://github.com/npgsql/npgsql/issues/1214#issuecomment-235828359
-                var keepAliveCommand = pgsql.CreateCommand();
-                keepAliveCommand.CommandText = "SELECT 1";
 
                 var definition = new { vote = "", voter_id = "" };
                 while (true)
@@ -34,7 +31,7 @@ namespace Worker
                     // Reconnect redis if down
                     if (redisConn == null || !redisConn.IsConnected) {
                         Console.WriteLine("Reconnecting Redis");
-                        redisConn = OpenRedisConnection("redis");
+                        redisConn = OpenRedisConnection(redisHost);
                         redis = redisConn.GetDatabase();
                     }
                     string json = redis.ListLeftPopAsync("votes").Result;
@@ -46,7 +43,7 @@ namespace Worker
                         if (!pgsql.State.Equals(System.Data.ConnectionState.Open))
                         {
                             Console.WriteLine("Reconnecting DB");
-                            pgsql = OpenDbConnection("Server=db;Username=postgres;Password=postgres;");
+                            pgsql = OpenDbConnection(dbConnectionString);
                         }
                         else
                         { // Normal +1 vote requested
@@ -55,6 +52,8 @@ namespace Worker
                     }
                     else
                     {
+                        using var keepAliveCommand = pgsql.CreateCommand();
+                        keepAliveCommand.CommandText = "SELECT 1";
                         keepAliveCommand.ExecuteNonQuery();
                     }
                 }
@@ -64,6 +63,20 @@ namespace Worker
                 Console.Error.WriteLine(ex.ToString());
                 return 1;
             }
+        }
+
+        private static string BuildDbConnectionString()
+        {
+            var builder = new NpgsqlConnectionStringBuilder
+            {
+                Host = Environment.GetEnvironmentVariable("POSTGRES_HOST") ?? "db",
+                Port = int.Parse(Environment.GetEnvironmentVariable("POSTGRES_PORT") ?? "5432"),
+                Username = Environment.GetEnvironmentVariable("POSTGRES_USER") ?? "postgres",
+                Password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD") ?? "postgres",
+                Database = Environment.GetEnvironmentVariable("POSTGRES_DB") ?? "postgres"
+            };
+
+            return builder.ConnectionString;
         }
 
         private static NpgsqlConnection OpenDbConnection(string connectionString)

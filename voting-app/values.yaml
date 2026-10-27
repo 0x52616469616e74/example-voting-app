@@ -1,0 +1,90 @@
+nameOverride: ""
+fullnameOverride: ""
+
+imagePullSecrets: []
+
+global:
+  imagePullPolicy: IfNotPresent
+  imageTag: "main"
+
+vote:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/radiant-o/example-voting-app-vote
+  service:
+    type: ClusterIP
+    port: 80
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+result:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/radiant-o/example-voting-app-result
+  service:
+    type: ClusterIP
+    port: 80
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+worker:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/radiant-o/example-voting-app-worker
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+redis:
+  image:
+    repository: redis
+    tag: 8.4.7-alpine3.22
+  persistence:
+    enabled: false
+    size: 1Gi
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+
+postgresql:
+  image:
+    repository: postgres
+    tag: 17.11-alpine3.24
+  auth:
+    username: postgres
+    database: postgres
+    # Demonstration placeholder only. Override this value at install time.
+    password: change-me-before-deploy
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClass: ""
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+options:
+  a: Cats
+  b: Dogs

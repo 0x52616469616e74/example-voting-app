@@ -1,0 +1,9 @@
+Voting App is installed.
+
+Vote UI:
+  kubectl -n {{ .Release.Namespace }} port-forward service/vote 5000:{{ .Values.vote.service.port }}
+
+Result UI:
+  kubectl -n {{ .Release.Namespace }} port-forward service/result 5001:{{ .Values.result.service.port }}
+
+Then open http://localhost:5000 and http://localhost:5001.

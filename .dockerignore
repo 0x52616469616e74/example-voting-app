@@ -1,0 +1,16 @@
+.git
+.github
+.vscode
+.env
+.env.*
+!.env.example
+**/__pycache__/
+**/*.py[cod]
+**/bin/
+**/obj/
+**/node_modules/
+**/*.log
+terraform/.terraform/
+terraform/*.tfstate*
+docs/evidence/*
+!docs/evidence/README.md

@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vote
+  labels:
+    {{- include "voting-app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: vote
+spec:
+  type: {{ .Values.vote.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.vote.service.port }}
+      targetPort: http
+  selector:
+    {{- include "voting-app.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: vote
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: result
+  labels:
+    {{- include "voting-app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: result
+spec:
+  type: {{ .Values.result.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.result.service.port }}
+      targetPort: http
+  selector:
+    {{- include "voting-app.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: result
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    {{- include "voting-app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: redis
+spec:
+  type: ClusterIP
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: redis
+  selector:
+    {{- include "voting-app.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    {{- include "voting-app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: postgresql
+spec:
+  type: ClusterIP
+  ports:
+    - name: postgresql
+      port: 5432
+      targetPort: postgresql
+  selector:
+    {{- include "voting-app.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: postgresql
