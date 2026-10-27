@@ -99,6 +99,9 @@ jobs:
           scan-type: fs
           scan-ref: .
           scanners: vuln,secret,misconfig
+          # Exclude generated dependency trees and the upstream legacy
+          # manifests; the maintained deployment path is voting-app/.
+          skip-dirs: k8s-specifications,terraform/.terraform,result/node_modules
           severity: HIGH,CRITICAL
           ignore-unfixed: true
           exit-code: "1"

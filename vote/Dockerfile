@@ -3,6 +3,7 @@ FROM python:3.13.17-slim-bookworm AS base
 
 # Add curl for healthcheck
 RUN apt-get update && \
+    apt-get upgrade -y && \
     apt-get install -y --no-install-recommends curl && \
     rm -rf /var/lib/apt/lists/*
 
@@ -14,7 +15,12 @@ RUN groupadd --gid 10001 app && \
 
 # Install our requirements.txt
 COPY requirements.txt ./requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install --no-cache-dir --upgrade \
+      pip \
+      setuptools \
+      urllib3==2.8.0 \
+      msgpack==1.2.1 && \
+    pip install --no-cache-dir -r requirements.txt
 
 # dev defines a stage for development, where it'll watch for filesystem changes
 FROM base AS dev

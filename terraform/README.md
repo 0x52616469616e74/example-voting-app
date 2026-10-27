@@ -19,6 +19,11 @@ aws sts get-caller-identity
 aws configure get region
 ```
 
+Copy `terraform.tfvars.example` to `terraform.tfvars` and replace the
+documentation-only EKS API CIDR with the `/32` public egress address used by
+your administrator or deployment runner. The configuration rejects
+`0.0.0.0/0`.
+
 ## Create and connect
 
 ```bash

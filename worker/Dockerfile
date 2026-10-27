@@ -7,10 +7,13 @@
 # for example, if you were on Intel (amd64) and wanted to build for ARM, you would use:
 # docker buildx build --platform "linux/arm64/v8" .
 
-# build compiles the program for the builder's local platform
+# build compiles the program for the builder's local platform. The default
+# keeps plain `docker build` working when BuildKit's automatic platform args
+# are unavailable; BuildKit overrides it for cross-platform builds.
+ARG BUILDPLATFORM=linux/amd64
 FROM --platform=${BUILDPLATFORM} mcr.microsoft.com/dotnet/sdk:10.0 AS build
-ARG TARGETPLATFORM
-ARG TARGETARCH
+ARG TARGETPLATFORM=linux/amd64
+ARG TARGETARCH=amd64
 ARG BUILDPLATFORM
 RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
 

@@ -22,6 +22,19 @@ variable "environment" {
   default     = "capstone"
 }
 
+variable "cluster_endpoint_public_access_cidrs" {
+  description = "Trusted public CIDR blocks allowed to reach the EKS API. Use your VPN, office, or runner egress IP as a /32; never use 0.0.0.0/0."
+  type        = list(string)
+
+  validation {
+    condition = (
+      length(var.cluster_endpoint_public_access_cidrs) > 0 &&
+      !contains(var.cluster_endpoint_public_access_cidrs, "0.0.0.0/0")
+    )
+    error_message = "Provide at least one trusted CIDR and do not expose the EKS API to 0.0.0.0/0."
+  }
+}
+
 variable "node_instance_types" {
   description = "EC2 instance types used by the managed node group."
   type        = list(string)

@@ -224,6 +224,7 @@ spec:
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             capabilities:
               drop: ["ALL"]
           ports:
@@ -241,6 +242,8 @@ spec:
           volumeMounts:
             - name: redis-data
               mountPath: /data
+            - name: tmp
+              mountPath: /tmp
       volumes:
         - name: redis-data
           {{- if .Values.redis.persistence.enabled }}
@@ -249,6 +252,8 @@ spec:
           {{- else }}
           emptyDir: {}
           {{- end }}
+        - name: tmp
+          emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -283,6 +288,7 @@ spec:
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             capabilities:
               drop: ["ALL"]
           envFrom:
@@ -304,6 +310,10 @@ spec:
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
+            - name: postgres-run
+              mountPath: /var/run/postgresql
+            - name: tmp
+              mountPath: /tmp
       volumes:
         - name: postgres-data
           {{- if .Values.postgresql.persistence.enabled }}
@@ -312,3 +322,7 @@ spec:
           {{- else }}
           emptyDir: {}
           {{- end }}
+        - name: postgres-run
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}

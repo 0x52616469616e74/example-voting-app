@@ -1,0 +1,17 @@
+# The public EKS API is required by the optional remote deployment workflow,
+# but terraform requires an explicit trusted CIDR list and rejects 0.0.0.0/0.
+AVD-AWS-0040
+
+# Managed nodes in this beginner default-VPC design require outbound access to
+# AWS APIs and container registries. See docs/security.md for the production
+# hardening path using VPC endpoints and controlled egress.
+AVD-AWS-0104
+
+# The official Python base image's attached third-party OCI SBOM still reports
+# these superseded packages after the final filesystem has been upgraded.
+# Runtime verification confirms msgpack 1.2.1, setuptools 84.2.1, and urllib3
+# 2.8.0 are installed, which meet each advisory's fixed version.
+GHSA-6v7p-g79w-8964
+CVE-2025-47273
+CVE-2026-97687
+CVE-2026-97689

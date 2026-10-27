@@ -11,6 +11,10 @@
 ## Pipeline controls
 
 - Trivy scans the repository before image creation.
+- Generated dependency trees and the repository's legacy upstream Kubernetes
+  examples are excluded from that repository scan. The maintained Helm chart,
+  Terraform source, application dependencies, and production Dockerfiles remain
+  in scope.
 - Each application image is scanned before it is published.
 - High or critical findings fail the workflow.
 - GHCR authentication uses the short-lived workflow token.
@@ -29,6 +33,19 @@ No operational secret belongs in source control. The Helm chart's default passwo
 4. If no fix exists, document the affected component, exploitability, compensating controls, and a review date before considering a narrowly scoped exception.
 
 Scanner suppressions must never be added only to make a pipeline green.
+
+The two Terraform policy exceptions in `.trivyignore` are documented design
+tradeoffs for this teaching environment: the EKS API is public but restricted
+to explicitly supplied trusted CIDRs, and managed nodes need outbound access to
+AWS APIs and image registries in the default-VPC design. A production VPC should
+replace broad node egress with VPC endpoints, an egress proxy, and narrowly
+scoped security-group rules.
+
+Four vulnerability exceptions cover stale package records in the official
+Python base image's attached third-party OCI SBOM. The final vote image was
+checked directly and contains `msgpack` 1.2.1, `setuptools` 84.2.1, and
+`urllib3` 2.8.0, which are the fixed releases. Review these exceptions whenever
+the Python base-image digest changes.
 
 ## Current limitations
 
