@@ -15,6 +15,19 @@ data "aws_subnets" "default" {
     name   = "vpc-id"
     values = [data.aws_vpc.default.id]
   }
+
+  # EKS control planes are not available in every AZ exposed by the default
+  # VPC (for example, us-east-1e). Select the supported regional AZ set.
+  filter {
+    name = "availability-zone"
+    values = [
+      "${var.aws_region}a",
+      "${var.aws_region}b",
+      "${var.aws_region}c",
+      "${var.aws_region}d",
+      "${var.aws_region}f",
+    ]
+  }
 }
 
 locals {
