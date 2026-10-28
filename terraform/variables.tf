@@ -38,7 +38,9 @@ variable "cluster_endpoint_public_access_cidrs" {
 variable "node_instance_types" {
   description = "EC2 instance types used by the managed node group."
   type        = list(string)
-  default     = ["t3.large"]
+  # m7i-flex.large is currently Free-Tier eligible for new AWS accounts while
+  # still providing enough memory for the capstone workloads.
+  default = ["m7i-flex.large"]
 }
 
 variable "node_min_size" {

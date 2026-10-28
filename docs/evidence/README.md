@@ -5,8 +5,8 @@ Store screenshots in this directory using numbered, descriptive filenames. Redac
 ## Verified online evidence
 
 - Public fork: [0x52616469616e74/example-voting-app](https://github.com/0x52616469616e74/example-voting-app)
-- Successful push workflow: [Capstone CI/CD run 40562052463](https://github.com/0x52616469616e74/example-voting-app/actions/runs/40562052463)
-- Demonstrated source revision: `3a5f7815e260ad862e20832182e02fe6241439a1`
+- Successful push workflow: [Capstone CI/CD run 40650601726](https://github.com/0x52616469616e74/example-voting-app/actions/runs/40650601726)
+- Demonstrated image revision: `e30553c367c3c9cddc4661050ebe234bc20af383`
 - Public SHA-tagged images:
   - [Vote](https://github.com/users/0x52616469616e74/packages/container/package/example-voting-app-vote)
   - [Result](https://github.com/users/0x52616469616e74/packages/container/package/example-voting-app-result)
@@ -14,9 +14,9 @@ Store screenshots in this directory using numbered, descriptive filenames. Redac
 
 The workflow run above passed application tests, Docker Compose validation,
 Terraform validation, Helm lint/template checks, repository Trivy scanning,
-and build/Trivy/publish jobs for all three application images. The EKS job was
-intentionally skipped because no AWS account variables or credentials are
-configured.
+and build/Trivy/publish jobs for all three application images. A separate live
+EKS demonstration is recorded below; long-lived cloud credentials were not
+added to GitHub.
 
 ## Acceptance status
 
@@ -26,19 +26,19 @@ configured.
 | Local application | Done | [`docker compose ps` health record](01-compose-healthy.md), [Vote page](02a-vote-page.png), and [Result page](02b-result-page.png) show the live local flow. |
 | Service flow | Done | See [`docs/architecture.md`](../architecture.md). |
 | Container hardening | Done | Non-root runtime users, reduced runtime stages, `.dockerignore`, Kubernetes security contexts, and successful image rebuilds/scans. |
-| Terraform code | Partial | `terraform init` and `terraform validate` pass in CI. A reviewed AWS-backed `terraform plan` is still required. |
-| Kubernetes connectivity | Pending AWS | Requires real `kubectl get nodes` output showing Ready EKS nodes. |
+| Terraform code | Done with recorded exception | `terraform init`, validation, an AWS-backed apply, 54 state resources, and the Free-Tier node-group exception are recorded in [03-terraform-eks.md](03-terraform-eks.md). |
+| Kubernetes connectivity | Done | [03-terraform-eks.md](03-terraform-eks.md) records an ACTIVE EKS 1.36 cluster and Ready node. |
 | CI pipeline and Trivy | Done | Successful workflow linked above; repository and three image scan steps passed. |
 | Images published | Done with registry substitution | Public GHCR packages use `main` and the full demonstrated commit SHA. The brief names Docker Hub, so confirm that GHCR is accepted or mirror the images to Docker Hub. |
-| Helm chart | Partial | `helm lint` and `helm template` pass. A live deployed release still requires an EKS cluster. |
-| Working Kubernetes deployment | Pending AWS | Requires a live vote reflected in Result through the Helm/EKS deployment. |
-| Rollback demo | Pending AWS | Follow [`docs/rollback-demo.md`](../rollback-demo.md) against the live release and retain Helm history plus recovery evidence. |
+| Helm chart | Done | [06-helm-release.md](06-helm-release.md) records the live release and five Ready workloads. |
+| Working Kubernetes deployment | Done | [07-eks-application.md](07-eks-application.md) records HTTP checks and persisted votes across the complete service path. |
+| Rollback demo | Done | [08-rollback-failure.md](08-rollback-failure.md) and [09-rollback-recovery.md](09-rollback-recovery.md) record the bad-image failure and recovery to the immutable SHA. |
 | Documentation and diagram | Done | README, runtime/delivery diagrams, security rationale, Terraform guide, and rollback procedure are present. |
 | Secrets safety | Done | CI secret/misconfiguration scan passed; no operational credentials are committed. |
-| Cloud cleanup | Not applicable yet | No AWS resources were created. If EKS is provisioned, capture `terraform destroy` and confirm no billable leftovers. |
+| Cloud cleanup | Pending final shared demo | The cluster is temporarily retained for Capstone 2 evidence. Cleanup will be recorded after both demonstrations. |
 
-Do not mark the pending AWS items complete without real command output or
-screenshots from the provisioned cluster.
+All completed AWS items above are backed by real command output from the
+temporary cluster; no AWS evidence was fabricated.
 
 | Evidence | Suggested filename |
 | --- | --- |

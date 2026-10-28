@@ -95,6 +95,9 @@ jobs:
           grep -q 'runAsUser: 70' /tmp/voting-app.yaml
           grep -q 'runAsGroup: 70' /tmp/voting-app.yaml
           grep -q 'fsGroup: 70' /tmp/voting-app.yaml
+          grep -q 'name: prepare-postgres-volumes' /tmp/voting-app.yaml
+          grep -q 'chown -R 70:70 /var/lib/postgresql/data /var/run/postgresql' /tmp/voting-app.yaml
+          grep -q 'name: REDIS_PORT' /tmp/voting-app.yaml
 
       - name: Scan repository and infrastructure configuration
         uses: aquasecurity/trivy-action@v0.36.0
