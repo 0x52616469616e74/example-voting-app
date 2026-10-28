@@ -35,7 +35,7 @@ added to GitHub.
 | Rollback demo | Done | [08-rollback-failure.md](08-rollback-failure.md) and [09-rollback-recovery.md](09-rollback-recovery.md) record the bad-image failure and recovery to the immutable SHA. |
 | Documentation and diagram | Done | README, runtime/delivery diagrams, security rationale, Terraform guide, and rollback procedure are present. |
 | Secrets safety | Done | CI secret/misconfiguration scan passed; no operational credentials are committed. |
-| Cloud cleanup | Pending final shared demo | The cluster is temporarily retained for Capstone 2 evidence. Cleanup will be recorded after both demonstrations. |
+| Cloud cleanup | Done | [10-cleanup.md](10-cleanup.md): Helm releases removed, out-of-band node group deleted, `terraform destroy` removed 38 resources, and an AWS leftover check found no clusters, instances, load balancers, volumes, NAT gateways, Elastic IPs or VPCs. |
 
 All completed AWS items above are backed by real command output from the
 temporary cluster; no AWS evidence was fabricated.
@@ -51,7 +51,7 @@ temporary cluster; no AWS evidence was fabricated.
 | Application reached through Kubernetes | `07-eks-application.png` |
 | Controlled deployment failure | `08-rollback-failure.png` |
 | Helm history and restored healthy release | `09-rollback-recovery.png` |
-| Terraform destroy completion | `10-cleanup.png` |
+| Terraform destroy completion | `10-cleanup.md` |
 
 The run URL and exact demonstrated commit SHA are recorded above. Keep the
 corresponding screenshots with the submission in case the online logs expire.
